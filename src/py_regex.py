@@ -4,6 +4,7 @@ import csv
 
 from regex_parser import is_malformed, preprocess_character_classes, add_concatenation, postfix_conversion, desugar_postfix
 from nfa import build_nfa
+from dfa import build_dfa
 
 
 def debug_mode():
@@ -41,6 +42,10 @@ else:
 
     # Stage 2: Build the NFA for the regex by Thompson's Construction
     final_nfa = build_nfa(final_postfix)
+
+    # Stage 3: Subset Construction
+    # final_nfa.start and final_nfa.accept are passed so the function can trace the graph
+    dfa_states, dfa_transitions, dfa_accept_states, alphabet = build_dfa(final_nfa.start, final_nfa.accept, final_postfix)
 
     if args.debug:
         debug_mode()
