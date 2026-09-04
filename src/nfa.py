@@ -2,7 +2,7 @@ class State:
     _id_counter = 0
 
     def __init__(self):
-        # Assign a globally uniqu ID to each state for debugging and DFA conversion
+        # Assign a globally unique ID to each state for debugging and DFA conversion
         self.id = State._id_counter
         State._id_counter += 1
 

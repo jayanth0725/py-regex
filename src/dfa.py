@@ -78,3 +78,24 @@ def build_dfa(nfa_start, nfa_accept, postfix):
             dfa_transitions[curr_id][char] = dfa_states[dest_subset]
 
     return dfa_states, dfa_transitions, dfa_accept_states, alphabet
+
+
+def simulate_dfa(input_words, dfa_transitions, dfa_accept_states):
+    for word in input_words:
+        # State 0 is always the start stae based on the build_dfa logic
+        current_state = 0
+        is_dead_end = False
+
+        # Run the word through the DFA character by character
+        for char in word:
+            # Check if there is a valid transition for this character
+            if current_state in dfa_transitions and char in dfa_transitions[current_state]:
+                current_state = dfa_transitions[current_state][char]
+            else:
+                # No transition exists; a dead state has been reached
+                is_dead_end = True
+                break
+
+        # If we didn't hit a dead end and we finsihed in an accepting state, it is a match
+        if not is_dead_end and current_state in dfa_accept_states:
+            print(word)
