@@ -23,7 +23,12 @@ def epsilon_closure(nfa_states):
 def build_dfa(nfa_start, nfa_accept, postfix):
     # Extract the active alphabet (sorted in ASCII order)
     operators = {'*', '+', '?', '.', '|', 'ε'}
-    alphabet = sorted(list(set(char for char in postfix if char not in operators)))
+    alphabet_set = set()
+    for char in postfix:
+        if char not in operators:
+            alphabet_set.add(char[-1] if char.startswith('\\') else char)
+
+    alphabet = sorted(list(alphabet_set))
 
     # Dictionary mapping a frozenset of NFA states -> DFA integer ID
     dfa_states = {}

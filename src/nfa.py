@@ -72,13 +72,16 @@ def build_nfa(postfix):
             start.add_transition('ε', accept)
 
             stack.append(NFA_Fragment(start, accept))
-            
+
         else:
             # Base Case (Literal character or 'ε' from desugaring)
             start = State()
             accept = State()
 
-            start.add_transition(char, accept)
+            # If the token is escaped (eg. '\.'), extract just the '.'
+            char_val = char[-1] if char.startswith('\\') else char
+
+            start.add_transition(char_val, accept)
 
             stack.append(NFA_Fragment(start, accept))
 
